@@ -175,5 +175,7 @@ function animate() {
   // -----------------
 }
 
-init();
-animate();
+// Start game on button click
+function StartGame() {
+  return init(), animate(), document.querySelector('canvas').style.display = 'block', document.querySelector('div').style.display = 'none';
+}
