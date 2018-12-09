@@ -1,4 +1,4 @@
-// file:///Users/niclasrist/Desktop/canvas/index.html
+// file:///Users/niclasrist/Documents/GitHub/CanvasGame-prototypes/Main%20Game/index.html
 // Initial Setup
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
@@ -92,12 +92,11 @@ function Asteroid(x, y, radius, color, speed) {
 function Spaceship(x, y, img, speed) {
   this.x = x;
   this.y = y;
+  this.width = 50;
+  this.height = 50;
   this.sprite = new Image();
   this.sprite.src = img;
   this.speed = speed;
-  // --- Collision ---
-  this.radius = 50;
-  // -----------------
 
   this.update = () => {
     this.draw();
@@ -168,7 +167,7 @@ function animate() {
 
   // --- Collision ---
   asteroids.forEach(asteroid => {
-    if (distance(spaceship.x, spaceship.y, asteroid.x, asteroid.y) < spaceship.radius + asteroid.radius) {
+    if (distance(spaceship.x + spaceship.width, spaceship.y + spaceship.width, asteroid.x, asteroid.y) < asteroid.radius + spaceship.width) {
       console.log('[*] Collision!');
       asteroid.color = '#000';
     }
