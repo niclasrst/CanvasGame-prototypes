@@ -44,8 +44,8 @@ let asteroids;
 var speed;
 
 function init() {
-  document.body.scrollTop = 0;
-  document.body.style.overflow = 'hidden';
+  // document.body.scrollTop = 0;
+  // document.body.style.overflow = 'hidden';
   bg = new Background(0, 0, canvas.width, canvas.height, '#F5F5F5', 2);
 
   asteroids = [];
@@ -82,12 +82,14 @@ function animate() {
   requestAnimationFrame(animate);
   c.clearRect(0, 0, canvas.width, canvas.height);
 
+  // Background
   bg.update();
 
   asteroids.forEach(asteroid => {
     asteroid.update();
   });
 
+  // Spaceship
   spaceship.update();
 
   // --- Collision ---
