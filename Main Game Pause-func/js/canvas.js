@@ -1,4 +1,4 @@
-// file:///Users/niclasrist/Documents/GitHub/CanvasGame-prototypes/Main%20Game/index.html
+// file:///Users/niclasrist/Documents/GitHub/CanvasGame-prototypes/Main%20Game%20Pause-func/index.html
 // Initial Setup
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
@@ -8,6 +8,8 @@ canvas.height = innerHeight;
 // Variables
 const colors = ['#ff5e57', '#3c40c6', '#485460', '#ffa801'];
 const mouse = { x: innerWidth / 2, y: innerHeight / 2 };
+
+var pause = false;
 
 var rightPressed = false;
 var leftPressed = false;
@@ -23,6 +25,7 @@ addEventListener('resize', () => {
 });
 
 addEventListener('keydown', (e) => {
+  if (e.keyCode == 27) { togglePause(); }
   if (e.keyCode == 39) { rightPressed = true; }
   if (e.keyCode == 37) { leftPressed = true; }
   if (e.keyCode == 40) { upPressed = true; }
@@ -39,8 +42,10 @@ addEventListener('keyup', (e) => {
 // Implementation
 let bg;
 let spaceship;
+let shipWidth = shipHeight = 50;
 let asteroids;
 
+var deads = 0;
 var speed;
 
 function init() {
@@ -62,46 +67,53 @@ function init() {
     if (i !== 0) {
       for (let j = 0; j < asteroids.length; j++) {
         if (distance(x, y, asteroids[j].x, asteroids[j].y) - radius * 2 < 0) {
-          x = canvas.width;//randomIntFromRange(radius, canvas.width - radius);
+          x = canvas.width;
           y = randomIntFromRange(radius, canvas.height - radius);
 
           j = -1;
         }
       }
     }
-    asteroids.push(new Asteroid(canvas.width, y, radius, color, speed))
+    asteroids.push(new Asteroid(canvas.width, y, radius, color, speed));
   }
 
-  spaceship = new Spaceship((canvas.width - 50) / 2, (canvas.height - 50) / 2, 'Sprites/Spaceship1.png', 5);
+  spaceship = new Spaceship((canvas.width - shipWidth) / 2, (canvas.height - shipHeight) / 2, 'Sprites/Spaceship1.png', shipWidth, shipHeight, 5);
 }
 
 // Animation Loop
 function animate() {
   requestAnimationFrame(animate);
-  c.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Background
-  bg.update();
+  if (!pause) {
+    c.clearRect(0, 0, canvas.width, canvas.height);
+    // Background
+    bg.update();
 
-  asteroids.forEach(asteroid => {
-    asteroid.update();
-  });
+    asteroids.forEach(asteroid => {
+      asteroid.update();
+    });
 
-  // Spaceship
-  spaceship.update();
+    // Spaceship
+    spaceship.update();
 
-  // --- Collision ---
-  asteroids.forEach(asteroid => {
-    if (distance(spaceship.x + spaceship.width, spaceship.y + spaceship.width, asteroid.x, asteroid.y) < asteroid.radius + spaceship.width) {
-      console.log('[*] Collision!');
-      asteroid.color = '#000';
-    } else {
-      asteroid.color = randomColor(colors);
-    }
-  });
+    // --- Collision ---
+    asteroids.forEach(asteroid => {
+      if (distance(spaceship.x + spaceship.width, spaceship.y + spaceship.width, asteroid.x, asteroid.y) < asteroid.radius + spaceship.width) {
+        deads += 1;
+        asteroid.color = '#000';
+      } else {
+        asteroid.color = '#FF2200';
+      }
+    });
+
+    // Game end
+    if (deads === 3) { console.log('[-] Game end!') }
+  }
 }
 
-// Start game on button click
+// Start / Pause game
 function StartGame() {
   return init(), animate(), document.querySelector('canvas').style.display = 'block', document.querySelector('div').style.display = 'none';
 }
+
+function togglePause() { pause = !pause; }

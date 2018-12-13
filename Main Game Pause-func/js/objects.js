@@ -51,11 +51,11 @@ function Asteroid(x, y, radius, color, speed) {
   }
 }
 
-function Spaceship(x, y, img, speed) {
+function Spaceship(x, y, img, width, height, speed) {
   this.x = x;
   this.y = y;
-  this.width = 50;
-  this.height = 50;
+  this.width = width;
+  this.height = height;
   this.sprite = new Image();
   this.sprite.src = img;
   this.speed = speed;
