@@ -55,13 +55,27 @@ function init() {
   bg = new Background(0, 0, canvas.width, canvas.height, '#F5F5F5', 2);
 
   asteroids = [];
-
   for (let i = 0; i < 12; i++) {
     var radius = randomIntFromRange(5, 20);
 
+    // switch (radius) {
+    //   case < 10:
+    //     speed = 2 + (Math.random() * 2);
+    //     break;
+    //   case >= 10 && < 15:
+    //     speed = 4 + (Math.random() * 2);
+    //     break;
+    //   case >= 15:
+    //     speed = 6 + (Math.random() * 2);
+    //     break;
+    //   default:
+    //     speed = 5;
+    //     break;
+    // }
+
     if (radius < 10) { speed = 2 + (Math.random() * 2); }
     else if (radius >= 10 && radius < 15) { speed = 4 + (Math.random() * 2); }
-    else if (radius >= 15 && radius < 20) { speed = 6 + (Math.random() * 2); }
+    else if (radius >= 15) { speed = 6 + (Math.random() * 2); }
 
     let x = randomIntFromRange(radius, canvas.width - radius);
     let y = randomIntFromRange(radius, canvas.height - radius);
@@ -83,9 +97,24 @@ function init() {
   spaceship = new Spaceship((canvas.width - shipWidth) / 2, (canvas.height - shipHeight) / 2, 'Sprites/Spaceship1.png', shipWidth, shipHeight, 5);
 }
 
+var pause_screen = new Image();
+pause_screen.src = 'Sprites/pause_screen.png';
+
+pause_screen.onload = () => {
+  console.log('[+] pause_screen loaded.');
+}
+
 // Animation Loop
 function animate() {
   requestAnimationFrame(animate);
+
+  if (pause) {
+    c.clearRect(0, 0, canvas.width, canvas.height);
+    c.fillStyle = 'rgb(176,190,197)';
+    //c.fillText('PAUSE', mouse.x, mouse.y);
+    c.font = '150px Verdana';
+    c.fillText('Pause', canvas.width / 2 - c.measureText('Pause').width / 2, canvas.height / 2);
+  }
 
   if (!pause) {
     c.clearRect(0, 0, canvas.width, canvas.height);
