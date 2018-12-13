@@ -23,6 +23,11 @@ addEventListener('resize', () => {
   init();
 });
 
+addEventListener('mousemove', event => {
+  mouse.x = event.clientX;
+  mouse.y = event.clientY;
+});
+
 addEventListener('keydown', (e) => {
   if (e.keyCode == 27) { togglePause(); }
   if (e.keyCode == 39) { rightPressed = true; }
