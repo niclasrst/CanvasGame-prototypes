@@ -6,8 +6,8 @@ canvas.width = innerWidth;
 canvas.height = innerHeight;
 
 // Variables
-const mouse = { x: innerWidth / 2, y: innerHeight / 2 };
 const colors = ['#ff5e57', '#3c40c6', '#485460', '#ffa801'];
+const mouse = { x: innerWidth / 2, y: innerHeight / 2 };
 
 var rightPressed = false;
 var leftPressed = false;
@@ -44,8 +44,6 @@ let asteroids;
 var speed;
 
 function init() {
-  // document.body.scrollTop = 0;
-  // document.body.style.overflow = 'hidden';
   bg = new Background(0, 0, canvas.width, canvas.height, '#F5F5F5', 2);
 
   asteroids = [];
@@ -97,6 +95,8 @@ function animate() {
     if (distance(spaceship.x + spaceship.width, spaceship.y + spaceship.width, asteroid.x, asteroid.y) < asteroid.radius + spaceship.width) {
       console.log('[*] Collision!');
       asteroid.color = '#000';
+    } else {
+      asteroid.color = randomColor(colors);
     }
   });
 }

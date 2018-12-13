@@ -66,6 +66,8 @@ function Spaceship(x, y, img, speed) {
     if (rightPressed) { this.x += this.speed; bg.x -= this.speed * 0.25; }
     if (downPressed) { this.y -= this.speed; bg.y += this.speed * 0.5; }
     if (leftPressed) { this.x -= this.speed; bg.x -= this.speed * 0.25;}
+    if (this.x <= 0) { this.x = 0 } else if (this.x + this.width >= canvas.width) { this.x = canvas.width - this.width; }
+    if (this.y <= 0) { this.y = 0 } else if (this.y + this.height >= canvas.height) { this.y = canvas.height - this.height; }
   }
 
   this.draw = () => {
