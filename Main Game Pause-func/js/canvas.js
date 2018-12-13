@@ -1,4 +1,3 @@
-// file:///Users/niclasrist/Documents/GitHub/CanvasGame-prototypes/Main%20Game%20Pause-func/index.html
 // Initial Setup
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
@@ -45,7 +44,6 @@ let spaceship;
 let shipWidth = shipHeight = 50;
 let asteroids;
 
-var deads = 0;
 var speed;
 
 function init() {
@@ -99,15 +97,11 @@ function animate() {
     // --- Collision ---
     asteroids.forEach(asteroid => {
       if (distance(spaceship.x + spaceship.width, spaceship.y + spaceship.width, asteroid.x, asteroid.y) < asteroid.radius + spaceship.width) {
-        deads += 1;
         asteroid.color = '#000';
       } else {
         asteroid.color = '#FF2200';
       }
     });
-
-    // Game end
-    if (deads === 3) { console.log('[-] Game end!') }
   }
 }
 
