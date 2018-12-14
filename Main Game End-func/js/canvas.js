@@ -58,21 +58,6 @@ function init() {
   for (let i = 0; i < 12; i++) {
     var radius = randomIntFromRange(5, 20);
 
-    // switch (radius) {
-    //   case < 10:
-    //     speed = 2 + (Math.random() * 2);
-    //     break;
-    //   case >= 10 && < 15:
-    //     speed = 4 + (Math.random() * 2);
-    //     break;
-    //   case >= 15:
-    //     speed = 6 + (Math.random() * 2);
-    //     break;
-    //   default:
-    //     speed = 5;
-    //     break;
-    // }
-
     if (radius < 10) { speed = 2 + (Math.random() * 2); }
     else if (radius >= 10 && radius < 15) { speed = 4 + (Math.random() * 2); }
     else if (radius >= 15) { speed = 6 + (Math.random() * 2); }
@@ -110,8 +95,12 @@ function animate() {
 
   if (pause) {
     c.clearRect(0, 0, canvas.width, canvas.height);
-    c.fillStyle = 'rgb(176,190,197)';
-    //c.fillText('PAUSE', mouse.x, mouse.y);
+
+    bg.draw();
+    spaceship.draw();
+    asteroids.forEach(asteroid => { asteroid.draw(); });
+
+    c.fillStyle = 'rgba(52, 73, 94, 0.5)';
     c.font = '150px Verdana';
     c.fillText('Pause', canvas.width / 2 - c.measureText('Pause').width / 2, canvas.height / 2);
   }
@@ -143,5 +132,4 @@ function animate() {
 function StartGame() {
   return init(), animate(), document.querySelector('canvas').style.display = 'block', document.querySelector('div').style.display = 'none';
 }
-
 function togglePause() { pause = !pause; }
