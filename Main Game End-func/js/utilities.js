@@ -8,8 +8,5 @@ function randomColor(colors) {
 }
 
 function distance(x1, y1, x2, y2) {
-  const xDist = Math.abs(x1 - x2);
-  const yDist = Math.abs(y1 - y2);
-
-  return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
+  return Math.sqrt(Math.pow(Math.abs(x1 -  x2), 2) + Math.pow(Math.abs(y1 - y2), 2));
 }
