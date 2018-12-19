@@ -75,7 +75,6 @@ function init() {
     }
     asteroids.push(new Asteroid(canvas.width, y, radius, color, speed));
   }
-
   spaceship = new Spaceship(canvas.width / 2 - shipWidth / 2, canvas.height / 2 - shipHeight / 2, 'Sprites/Spaceship1.png', shipWidth, shipHeight, 5);
 }
 
@@ -103,8 +102,10 @@ function animate() {
 
     // --- Collision ---
     asteroids.forEach(asteroid => {
-      if (distance(spaceship.x + spaceship.width, spaceship.y + spaceship.width, asteroid.x, asteroid.y) < asteroid.radius + spaceship.width) {
+      if (!asteroid.collided && distance(spaceship.x + spaceship.width, spaceship.y + spaceship.width, asteroid.x, asteroid.y) < asteroid.radius + spaceship.width) {
         asteroid.color = '#000';
+        asteroid.collided = true;
+        console.log('Collision');
       } else {
         asteroid.color = '#FF2200';
       }
@@ -118,8 +119,4 @@ function StartGame() {
   return init(), animate(), document.querySelector('canvas').style.display = 'block', document.querySelector('div').style.display = 'none';
 }
 
-function togglePause() {
-  if (started) {
-    pause = !pause;
-  }
-}
+function togglePause() { if (started) { pause = !pause; }}

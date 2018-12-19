@@ -31,6 +31,7 @@ function Asteroid(x, y, radius, color, speed) {
   this.y = y;
   this.radius = radius;
   this.color = color;
+  this.collided = false;
 
   this.update = () => {
     this.x -= speed;
