@@ -80,7 +80,7 @@ function init() {
 
 // Animation Loop
 function animate() {
-  requestAnimationFrame(animate);
+  frameID = requestAnimationFrame(animate);
 
   if (pause) {
     c.clearRect(0, 0, canvas.width, canvas.height);
@@ -102,10 +102,11 @@ function animate() {
 
     // --- Collision ---
     asteroids.forEach(asteroid => {
-      if (!asteroid.collided && distance(spaceship.x + spaceship.width, spaceship.y + spaceship.width, asteroid.x, asteroid.y) < asteroid.radius + spaceship.width) {
+      if (distance(spaceship.x + spaceship.width, spaceship.y + spaceship.width, asteroid.x, asteroid.y) < asteroid.radius + spaceship.width) {
         asteroid.color = '#000';
-        asteroid.collided = true;
         console.log('Collision');
+        stop();
+        return;
       } else {
         asteroid.color = '#FF2200';
       }
@@ -113,10 +114,15 @@ function animate() {
   }
 }
 
-// Start / Pause game
+// Start / Pause / End game
 function StartGame() {
   started = true;
   return init(), animate(), document.querySelector('canvas').style.display = 'block', document.querySelector('div').style.display = 'none';
 }
 
 function togglePause() { if (started) { pause = !pause; }}
+
+function stop() {
+  end = true;
+  return cancelAnimationFrame(frameID), c.clearRect(0, 0, canvas.width, canvas.height);
+}
