@@ -74,3 +74,21 @@ function Spaceship(x, y, img, width, height, speed) {
     c.drawImage(this.sprite, this.x, this.y);
   }
 }
+
+function ScoreManager() {
+  var score = 0;
+
+  this.incrementScore = () => {
+    score += 1;
+  }
+
+  this.resetScore = () => {
+    score = 0;
+  }
+
+  this.draw = (x, y) => {
+    c.font = '32px Arial';
+    c.fillStyle = '#fff';
+    c.fillText(score, x, y);
+  }
+}
