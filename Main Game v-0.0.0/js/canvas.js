@@ -98,23 +98,20 @@ function animate() {
     asteroids.forEach(asteroid => { asteroid.draw(); });
     spaceship.draw();
     score.draw(30, 60);
-    deaths.draw(canvas.width -  250, 60);
+    deaths.draw(canvas.width - (c.measureText('Deaths: 0').width + 30), 60);
 
     c.fillStyle = 'rgba(52, 73, 94, 0.5)';
     c.font = '150px Verdana';
     c.fillText('Pause', canvas.width / 2 - c.measureText('Pause').width / 2, canvas.height / 2);
-  }
-
-  if (!pause) {
+  } else {
     bg.update();
     asteroids.forEach(asteroid => { asteroid.update(); });
     spaceship.update();
     score.draw(30, 60);
-    deaths.draw(160, 60);
+    deaths.draw(canvas.width - (c.measureText('Deaths: 0').width + 30), 60);
 
     // --- Collision ---
     asteroids.forEach(asteroid => {
-      //if (collisionOccured) { return; } I thought might work...
       if (distance(spaceship.x + spaceship.width, spaceship.y + spaceship.width, asteroid.x, asteroid.y) < asteroid.radius + spaceship.width) {
         asteroid.color = '#000';
         console.log('Collision');
