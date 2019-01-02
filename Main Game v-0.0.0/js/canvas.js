@@ -6,11 +6,12 @@ canvas.height = innerHeight;
 
 // Variables
 const colors = ['#ff5e57', '#3c40c6', '#485460', '#ffa801'];
-const mouse = { x: innerWidth / 2, y: innerHeight / 2 };
 
 var started = false;
 var pause = false;
 var end = false;
+
+var collisionOccured = false;
 
 var rightPressed = false;
 var leftPressed = false;
@@ -46,10 +47,17 @@ let spaceship;
 let shipWidth = shipHeight = 50;
 let asteroids;
 
+let score;
+let deaths;
+
 var speed;
 
 function init() {
   bg = new Background(0, 0, canvas.width, canvas.height, '#F5F5F5', 2);
+  score = new ScoreManager();
+  deaths = new DeathManager();
+  score.resetScore();
+  deaths.resetDeaths();
 
   asteroids = [];
   for (let i = 0; i < 12; i++) {
@@ -76,18 +84,21 @@ function init() {
     asteroids.push(new Asteroid(canvas.width, y, radius, color, speed));
   }
   spaceship = new Spaceship(canvas.width / 2 - shipWidth / 2, canvas.height / 2 - shipHeight / 2, 'Sprites/Spaceship1.png', shipWidth, shipHeight, 5);
+
+  return animate();
 }
 
 // Animation Loop
 function animate() {
   frameID = requestAnimationFrame(animate);
+  c.clearRect(0, 0, canvas.width, canvas.height);
 
   if (pause) {
-    c.clearRect(0, 0, canvas.width, canvas.height);
-
     bg.draw();
-    spaceship.draw();
     asteroids.forEach(asteroid => { asteroid.draw(); });
+    spaceship.draw();
+    score.draw(30, 60);
+    deaths.draw(canvas.width -  250, 60);
 
     c.fillStyle = 'rgba(52, 73, 94, 0.5)';
     c.font = '150px Verdana';
@@ -95,18 +106,19 @@ function animate() {
   }
 
   if (!pause) {
-    c.clearRect(0, 0, canvas.width, canvas.height);
     bg.update();
     asteroids.forEach(asteroid => { asteroid.update(); });
     spaceship.update();
+    score.draw(30, 60);
+    deaths.draw(160, 60);
 
     // --- Collision ---
     asteroids.forEach(asteroid => {
+      //if (collisionOccured) { return; } I thought might work...
       if (distance(spaceship.x + spaceship.width, spaceship.y + spaceship.width, asteroid.x, asteroid.y) < asteroid.radius + spaceship.width) {
         asteroid.color = '#000';
         console.log('Collision');
-        stop();
-        return;
+        collisionOccured = true;
       } else {
         asteroid.color = '#FF2200';
       }
@@ -117,7 +129,7 @@ function animate() {
 // Start / Pause / End game
 function StartGame() {
   started = true;
-  return init(), animate(), document.querySelector('canvas').style.display = 'block', document.querySelector('div').style.display = 'none';
+  return init(), document.querySelector('canvas').style.display = 'block', document.querySelector('div').style.display = 'none';
 }
 
 function togglePause() { if (started) { pause = !pause; }}
@@ -126,3 +138,5 @@ function stop() {
   end = true;
   return cancelAnimationFrame(frameID), c.clearRect(0, 0, canvas.width, canvas.height);
 }
+
+function collision() {}

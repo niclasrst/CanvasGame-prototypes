@@ -88,7 +88,25 @@ function ScoreManager() {
 
   this.draw = (x, y) => {
     c.font = '32px Arial';
-    c.fillStyle = '#fff';
-    c.fillText(score, x, y);
+    c.fillStyle = 'rgba(52, 73, 94, 0.5)';
+    c.fillText('Sore: ' + score, x, y);
+  }
+}
+
+function DeathManager() {
+  this.deaths = 0;
+
+  this.increment = () => {
+    this.deaths += 1;
+  }
+
+  this.resetDeaths = () => {
+    this.deaths = 0;
+  }
+
+  this.draw = (x, y) => {
+    c.font = '32px Arial';
+    c.fillStyle = 'rgba(52, 73, 94, 0.5)';
+    c.fillText('Deaths: ' + this.deaths, x, y);
   }
 }
